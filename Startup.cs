@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 // https://docs.microsoft.com/fr-fr/azure/api-management/api-management-howto-protect-backend-with-aad
 
 namespace api
-{
+{ 
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -22,12 +22,10 @@ namespace api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<AzureConfig>(Configuration.GetSection("Azure"));
-
             services.AddAuthentication(options => {
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options => {
-                options.Authority = "https://ordoapi.azurewebsites.net/oauth2/default";
+                options.Authority = "https://dev-186787-admin.okta.com/oauth2/default";
                 options.Audience = "api://default";
                 options.RequireHttpsMetadata = false;
             });
@@ -40,12 +38,10 @@ namespace api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
+            if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
+            else {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
