@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 
 // https://developer.okta.com/blog/2019/04/10/build-rest-api-with-aspnetcore
 // https://docs.microsoft.com/fr-fr/azure/api-management/api-management-howto-protect-backend-with-aad
@@ -22,16 +23,18 @@ namespace api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(context => {
+                context.UseInMemoryDatabase("JournalLogs");
+            });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
             services.AddAuthentication(options => {
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options => {
                 options.Authority = "https://dev-186787-admin.okta.com/oauth2/default";
                 options.Audience = "api://default";
                 options.RequireHttpsMetadata = false;
-            });
-
-            services.AddDbContext<ApplicationDbContext>(context => {
-                context.UseInMemoryDatabase("JournalLogs");
             });
         }
 
