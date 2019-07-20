@@ -33,7 +33,7 @@ namespace api
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseUrls("https://localhost:9001")
+                .UseUrls("https://localhost:7001")
                 .UseStartup<Startup>();
     }
 }
